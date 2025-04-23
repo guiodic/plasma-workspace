@@ -45,12 +45,16 @@ ConfigModel {
             required property string display
             required property string decoration
             required property string configUi
+            required property string configModule
+            required property string configComponent
             required property string pluginId
 
             name: display
             icon: decoration
             source: configUi
             includeMargins: false
+            configUiModule: configModule
+            configUiComponent: configComponent
             visible: Plasmoid.configuration.enabledCalendarPlugins.indexOf(pluginId) > -1
         }
 
