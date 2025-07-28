@@ -29,21 +29,4 @@ void ImagePlugin::registerTypes(const char *uri)
 {
     qRegisterMetaType<KFileItem>(); // For image preview
     qRegisterMetaType<MediaMetadata>(); // For image preview
-
-    qmlRegisterType<ImageBackend>(uri, 2, 0, "ImageBackend");
-    qmlRegisterType<MediaProxy>(uri, 2, 0, "MediaProxy");
-    qmlRegisterType<DayNightWallpaper>(uri, 2, 0, "DayNightWallpaper");
-
-    qmlRegisterType<MaximizedWindowMonitor>(uri, 2, 0, "MaximizedWindowMonitor");
-
-    qmlRegisterAnonymousType<QAbstractItemModel>("QAbstractItemModel", 1);
-
-    const QString reason = QStringLiteral("error: only enums");
-    qmlRegisterUncreatableMetaObject(Provider::staticMetaObject, uri, 2, 0, "Provider", reason);
-    qmlRegisterUncreatableMetaObject(BackgroundType::staticMetaObject, uri, 2, 0, "BackgroundType", reason);
-    qmlRegisterUncreatableMetaObject(SortingMode::staticMetaObject, uri, 2, 0, "SortingMode", reason);
-
-    qmlRegisterSingletonType<WallpaperUrl>(uri, 2, 0, "WallpaperUrl", [](QQmlEngine *, QJSEngine *) -> QObject * {
-        return new WallpaperUrl;
-    });
 }

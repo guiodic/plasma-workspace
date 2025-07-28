@@ -6,9 +6,12 @@
 
 #pragma once
 
+#include <qqmlintegration.h>
+
 namespace SortingMode
 {
 Q_NAMESPACE
+QML_ELEMENT
 
 enum Mode {
     Random,
