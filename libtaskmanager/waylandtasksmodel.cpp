@@ -444,7 +444,7 @@ public:
     // key=leader, values=transient children
     QMultiHash<PlasmaWindow *, PlasmaWindow *> transientsDemandingAttention;
     std::unique_ptr<PlasmaWindowManagement> windowManagement;
-    KSharedConfig::Ptr rulesConfig;
+    // KSharedConfig::Ptr rulesConfig;
     KDirWatch *configWatcher = nullptr;
     VirtualDesktopInfo *virtualDesktopInfo = nullptr;
     static QUuid uuid;
@@ -498,21 +498,21 @@ void WaylandTasksModel::Private::init()
                                          AbstractTasksModel::SkipTaskbar});
     };
 
-    rulesConfig = KSharedConfig::openConfig(QStringLiteral("taskmanagerrulesrc"));
-    configWatcher = new KDirWatch(q);
+    // rulesConfig = KSharedConfig::openConfig(QStringLiteral("taskmanagerrulesrc"));
+    // configWatcher = new KDirWatch(q);
+    //
+    // for (const QString &location : QStandardPaths::standardLocations(QStandardPaths::ConfigLocation)) {
+    //     configWatcher->addFile(location + QLatin1String("/taskmanagerrulesrc"));
+    // }
+    //
+    // auto rulesConfigChange = [this, clearCacheAndRefresh] {
+    //     rulesConfig->reparseConfiguration();
+    //     clearCacheAndRefresh();
+    // };
 
-    for (const QString &location : QStandardPaths::standardLocations(QStandardPaths::ConfigLocation)) {
-        configWatcher->addFile(location + QLatin1String("/taskmanagerrulesrc"));
-    }
-
-    auto rulesConfigChange = [this, clearCacheAndRefresh] {
-        rulesConfig->reparseConfiguration();
-        clearCacheAndRefresh();
-    };
-
-    QObject::connect(configWatcher, &KDirWatch::dirty, rulesConfigChange);
-    QObject::connect(configWatcher, &KDirWatch::created, rulesConfigChange);
-    QObject::connect(configWatcher, &KDirWatch::deleted, rulesConfigChange);
+    // QObject::connect(configWatcher, &KDirWatch::dirty, rulesConfigChange);
+    // QObject::connect(configWatcher, &KDirWatch::created, rulesConfigChange);
+    // QObject::connect(configWatcher, &KDirWatch::deleted, rulesConfigChange);
 
     virtualDesktopInfo = new VirtualDesktopInfo(q);
 
@@ -820,7 +820,7 @@ const AppData &WaylandTasksModel::Private::appData(PlasmaWindow *window)
         return *it;
     }
 
-    return *appDataCache.emplace(window, appDataFromUrl(windowUrlFromMetadata(window->appId, window->pid, rulesConfig, window->resourceName)));
+    return *appDataCache.emplace(window, appDataFromUrl(windowUrlFromMetadata(window->appId, window->pid, /*rulesConfig,*/ window->resourceName)));
 }
 
 QIcon WaylandTasksModel::Private::icon(PlasmaWindow *window)

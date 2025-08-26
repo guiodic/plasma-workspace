@@ -79,7 +79,7 @@ public:
     QHash<WId, QDateTime> lastActivated;
     QList<WId> cachedStackingOrder;
     WId activeWindow = -1;
-    KSharedConfig::Ptr rulesConfig;
+    // KSharedConfig::Ptr rulesConfig;
     KDirWatch *configWatcher = nullptr;
     QTimer sycocaChangeTimer;
 
@@ -150,21 +150,21 @@ void XWindowTasksModel::Private::init()
         sycocaChangeTimer.start();
     });
 
-    rulesConfig = KSharedConfig::openConfig(QStringLiteral("taskmanagerrulesrc"));
-    configWatcher = new KDirWatch(q);
+    // rulesConfig = KSharedConfig::openConfig(QStringLiteral("taskmanagerrulesrc"));
+    // configWatcher = new KDirWatch(q);
 
-    for (const auto locations = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation); const QString &location : locations) {
-        configWatcher->addFile(location + QLatin1String("/taskmanagerrulesrc"));
-    }
+    // for (const auto locations = QStandardPaths::standardLocations(QStandardPaths::ConfigLocation); const QString &location : locations) {
+    //     configWatcher->addFile(location + QLatin1String("/taskmanagerrulesrc"));
+    // }
+    //
+    // auto rulesConfigChange = [this, clearCacheAndRefresh] {
+    //     rulesConfig->reparseConfiguration();
+    //     clearCacheAndRefresh();
+    // };
 
-    auto rulesConfigChange = [this, clearCacheAndRefresh] {
-        rulesConfig->reparseConfiguration();
-        clearCacheAndRefresh();
-    };
-
-    QObject::connect(configWatcher, &KDirWatch::dirty, rulesConfigChange);
-    QObject::connect(configWatcher, &KDirWatch::created, rulesConfigChange);
-    QObject::connect(configWatcher, &KDirWatch::deleted, rulesConfigChange);
+    // QObject::connect(configWatcher, &KDirWatch::dirty, rulesConfigChange);
+    // QObject::connect(configWatcher, &KDirWatch::created, rulesConfigChange);
+    // QObject::connect(configWatcher, &KDirWatch::deleted, rulesConfigChange);
 
     auto windowSystem = new XWindowSystemEventBatcher(q);
 
@@ -550,7 +550,9 @@ QUrl XWindowTasksModel::Private::windowUrl(WId window)
         }
     }
 
-    return windowUrlFromMetadata(QString::fromLocal8Bit(info->windowClassClass()), info->pid(), rulesConfig, QString::fromLocal8Bit(info->windowClassName()));
+    return windowUrlFromMetadata(QString::fromLocal8Bit(info->windowClassClass()),
+                                 info->pid(),
+                                 /*rulesConfig,*/ QString::fromLocal8Bit(info->windowClassName()));
 }
 
 QUrl XWindowTasksModel::Private::launcherUrl(WId window, bool encodeFallbackIcon)

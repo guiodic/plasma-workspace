@@ -78,10 +78,7 @@ TASKMANAGER_EXPORT AppData appDataFromUrl(const QUrl &url, const QIcon &fallback
  * @returns A .desktop file or executable path for the application
  * owning the window.
  */
-TASKMANAGER_EXPORT QUrl windowUrlFromMetadata(const QString &appId,
-                                              quint32 pid = 0,
-                                              const KSharedConfig::Ptr &config = KSharedConfig::Ptr(),
-                                              const QString &xWindowsWMClassName = QString());
+TASKMANAGER_EXPORT QUrl windowUrlFromMetadata(const QString &appId, quint32 pid = 0, const QString &xWindowsWMClassName = QString());
 
 /**
  * Returns a list of (usually application) KService instances for the
@@ -93,7 +90,7 @@ TASKMANAGER_EXPORT QUrl windowUrlFromMetadata(const QString &appId,
  * behavior.
  * @returns A list of KService instances.
  */
-TASKMANAGER_EXPORT KService::List servicesFromPid(quint32 pid, const KSharedConfig::Ptr &rulesConfig = KSharedConfig::Ptr());
+TASKMANAGER_EXPORT KService::List servicesFromPid(quint32 pid /*, const KSharedConfig::Ptr &rulesConfig = KSharedConfig::Ptr()*/);
 
 /**
  * Returns a list of (usually application) KService instances for the
