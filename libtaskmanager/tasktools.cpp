@@ -544,17 +544,13 @@ KService::List servicesFromPid(quint32 pid, const KSharedConfig::Ptr &rulesConfi
         return KService::List();
     }
 
-    return servicesFromCmdLine(cmdLine, proc.name(), rulesConfig);
+    return servicesFromCmdLine(cmdLine, proc.name());
 }
 
-KService::List servicesFromCmdLine(const QString &_cmdLine, const QString &processName, const KSharedConfig::Ptr &rulesConfig)
+KService::List servicesFromCmdLine(const QString &_cmdLine, const QString &processName)
 {
     QString cmdLine = _cmdLine;
     KService::List services;
-
-    if (!rulesConfig) {
-        return services;
-    }
 
     const int firstSpace = cmdLine.indexOf(u' ');
     int slash = 0;
@@ -596,8 +592,7 @@ KService::List servicesFromCmdLine(const QString &_cmdLine, const QString &proce
     }
 
     if (services.isEmpty()) {
-        KConfigGroup set(rulesConfig, u"Settings"_s);
-        const QStringList &runtimes = set.readEntry("TryIgnoreRuntimes", QStringList());
+        const QStringList runtimes = {u"perl"_s};
 
         bool ignore = runtimes.contains(cmdLine);
 
@@ -606,7 +601,7 @@ KService::List servicesFromCmdLine(const QString &_cmdLine, const QString &proce
         }
 
         if (ignore) {
-            return servicesFromCmdLine(_cmdLine.mid(firstSpace + 1), processName, rulesConfig);
+            return servicesFromCmdLine(_cmdLine.mid(firstSpace + 1), processName);
         }
     }
 
