@@ -26,6 +26,7 @@
 
 #include <KGlobalAccel>
 #include <KLocalizedString>
+#include <algorithm>
 
 #include "finder/suffixcheck.h"
 #include "model/imageproxymodel.h"

@@ -20,6 +20,7 @@
 #include <QDebug>
 #include <QFileInfo>
 #include <QStandardPaths>
+#include <algorithm>
 
 using namespace Qt::StringLiterals;
 
@@ -402,7 +403,7 @@ void KCMLookandFeel::loadModel()
     // Sort case-insensitively
     QCollator collator;
     collator.setCaseSensitivity(Qt::CaseInsensitive);
-    std::sort(pkgs.begin(), pkgs.end(), [&collator](const KPackage::Package &a, const KPackage::Package &b) {
+    std::ranges::sort(pkgs, [&collator](const KPackage::Package &a, const KPackage::Package &b) {
         return collator.compare(a.metadata().name(), b.metadata().name()) < 0;
     });
 
