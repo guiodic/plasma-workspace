@@ -76,7 +76,7 @@ QString ScriptEngine::errorString() const
 
 QJSValue ScriptEngine::wrap(Plasma::Applet *w)
 {
-    Widget *wrapper = new Widget(w, this);
+    auto *wrapper = new Widget(w, this);
     return newQObject(wrapper);
 }
 
@@ -325,7 +325,7 @@ QStringList ScriptEngine::pendingUpdateScripts(Plasma::Corona *corona)
 
 QStringList ScriptEngine::availableActivities() const
 {
-    ShellCorona *sc = static_cast<ShellCorona *>(m_corona);
+    auto *sc = static_cast<ShellCorona *>(m_corona);
     return sc->availableActivities();
 }
 
@@ -357,7 +357,7 @@ QList<Containment *> ScriptEngine::desktopsForActivity(const QString &id)
         // this can happen when the activity already exists but has never been activated
         // with the current shell package and layout.js is run to set up the shell for the
         // first time
-        ShellCorona *sc = static_cast<ShellCorona *>(m_corona);
+        auto *sc = static_cast<ShellCorona *>(m_corona);
         const auto ids = sc->screenIds();
         for (int i : ids) {
             result << new Containment(sc->createContainmentForActivity(id, i), this);
@@ -384,7 +384,7 @@ Plasma::Containment *ScriptEngine::createContainment(const QString &type, const 
 
     Plasma::Containment *c = nullptr;
     if (type == QLatin1String("Panel")) {
-        ShellCorona *sc = static_cast<ShellCorona *>(m_corona);
+        auto *sc = static_cast<ShellCorona *>(m_corona);
         c = sc->addPanel(plugin);
     } else {
         c = m_corona->createContainment(plugin);

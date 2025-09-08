@@ -199,7 +199,7 @@ PanelConfigView::PanelConfigView(Plasma::Containment *containment, PanelView *pa
     , m_panelView(panelView)
     , m_sharedQmlEngine(std::make_unique<PlasmaQuick::SharedQmlEngine>(this))
 {
-    ShellCorona *c = qobject_cast<ShellCorona *>(m_containment->corona());
+    auto *c = qobject_cast<ShellCorona *>(m_containment->corona());
     setProperty("restrictedPopupGeometry", QVariant(c->availableScreenRect(m_containment->screen())));
     connect(m_containment, &Plasma::Containment::screenChanged, this, [this, c](int screen) {
         setProperty("restrictedPopupGeometry", QVariant(c->availableScreenRect(screen)));
@@ -251,7 +251,7 @@ void PanelConfigView::init()
     setMainItem(qobject_cast<QQuickItem *>(m_sharedQmlEngine->rootObject()));
     if (mainItem()) {
         if (m_panelRulerView) {
-            QQuickItem *ruler = mainItem()->property("panelRuler").value<QQuickItem *>();
+            auto *ruler = mainItem()->property("panelRuler").value<QQuickItem *>();
             m_panelRulerView->setMainItem(ruler);
             m_panelRulerView->syncPanelLocation();
         }
@@ -276,7 +276,7 @@ void PanelConfigView::showAddWidgetDialog()
 
 void PanelConfigView::addPanelSpacer()
 {
-    ShellCorona *c = qobject_cast<ShellCorona *>(m_containment->corona());
+    auto *c = qobject_cast<ShellCorona *>(m_containment->corona());
     if (!c) {
         return;
     }
@@ -439,7 +439,7 @@ PanelRulerView *PanelConfigView::panelRulerView()
     }
 
     if (mainItem()) {
-        QQuickItem *ruler = mainItem()->property("panelRuler").value<QQuickItem *>();
+        auto *ruler = mainItem()->property("panelRuler").value<QQuickItem *>();
         m_panelRulerView->setMainItem(ruler);
         m_panelRulerView->syncPanelLocation();
     }

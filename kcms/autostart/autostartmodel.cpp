@@ -347,7 +347,7 @@ void AutostartModel::addApplication(const KService::Ptr &service)
 
 void AutostartModel::showApplicationDialog(QQuickItem *context)
 {
-    KOpenWithDialog *owdlg = new KOpenWithDialog();
+    auto *owdlg = new KOpenWithDialog();
     owdlg->setAttribute(Qt::WA_DeleteOnClose);
 
     if (context && context->window()) {
@@ -526,7 +526,7 @@ void AutostartModel::editApplication(int row, QQuickItem *context)
     KFileItem kfi(QUrl::fromLocalFile(fileName));
     kfi.setDelayedMimeTypes(true);
 
-    KPropertiesDialog *dlg = new KPropertiesDialog(kfi, nullptr);
+    auto *dlg = new KPropertiesDialog(kfi, nullptr);
     dlg->setAttribute(Qt::WA_DeleteOnClose);
 
     if (context && context->window()) {
