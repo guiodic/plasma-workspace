@@ -28,9 +28,7 @@ LookAndFeelAutoSwitcher::LookAndFeelAutoSwitcher(QObject *parent, const QList<QV
     reconfigure();
 }
 
-LookAndFeelAutoSwitcher::~LookAndFeelAutoSwitcher()
-{
-}
+LookAndFeelAutoSwitcher::~LookAndFeelAutoSwitcher() = default;
 
 bool LookAndFeelAutoSwitcher::changesConfig(const KConfigGroup &group, const QByteArrayList &names) const
 {

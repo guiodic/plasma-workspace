@@ -75,9 +75,7 @@ ActivityInfo::ActivityInfo(QObject *parent)
             });
 }
 
-ActivityInfo::~ActivityInfo()
-{
-}
+ActivityInfo::~ActivityInfo() = default;
 
 QString ActivityInfo::currentActivity() const
 {

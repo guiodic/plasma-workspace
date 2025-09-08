@@ -117,9 +117,7 @@ Notifications::Private::Private(Notifications *q)
 {
 }
 
-Notifications::Private::~Private()
-{
-}
+Notifications::Private::~Private() = default;
 
 void Notifications::Private::initSourceModels()
 {
