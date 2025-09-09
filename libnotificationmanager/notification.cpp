@@ -143,7 +143,7 @@ QImage Notification::Private::decodeNotificationSpecImageHint(const QDBusArgumen
     char *end;
 
     if (arg.currentType() != QDBusArgument::StructureType) {
-        return QImage();
+        return {};
     }
     arg.beginStructure();
     arg >> width >> height >> rowStride >> hasAlpha >> bitsPerSample >> channels >> pixels;
@@ -191,7 +191,7 @@ QImage Notification::Private::decodeNotificationSpecImageHint(const QDBusArgumen
     if (format == QImage::Format_Invalid) {
         qCWarning(NOTIFICATIONMANAGER) << "Unsupported image format (hasAlpha:" << hasAlpha << "bitsPerSample:" << bitsPerSample << "channels:" << channels
                                        << ")";
-        return QImage();
+        return {};
     }
 
     QImage image(width, height, format);
@@ -266,7 +266,7 @@ QString Notification::Private::defaultComponentName()
 
 constexpr QSize Notification::Private::maximumImageSize()
 {
-    return QSize(256, 256);
+    return {256, 256};
 }
 
 KService::Ptr Notification::Private::serviceForDesktopEntry(const QString &desktopEntry)
@@ -604,7 +604,7 @@ QImage Notification::image() const
     if (d->s_imageCache.contains(d->id)) {
         return *d->s_imageCache.object(d->id);
     }
-    return QImage();
+    return {};
 }
 
 void Notification::setImage(const QImage &image)
@@ -679,7 +679,7 @@ QString Notification::defaultActionLabel() const
     if (!d->notifyRcName.isEmpty() && d->notifyRcName != Private::defaultComponentName()) {
         return d->defaultActionLabel;
     } else {
-        return QString(); // Let the UI pick a sensible default.
+        return {}; // Let the UI pick a sensible default.
     }
 }
 

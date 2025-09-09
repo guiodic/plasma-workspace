@@ -336,7 +336,7 @@ bool GridLayoutManager::isCellAvailable(const QPair<int, int> &cell) const
 
 QRectF GridLayoutManager::itemGeometry(QQuickItem *item) const
 {
-    return QRectF(item->property("x").toReal(), item->property("y").toReal(), item->width(), item->height());
+    return {item->property("x").toReal(), item->property("y").toReal(), item->width(), item->height()};
 }
 
 QPair<int, int> GridLayoutManager::nextCell(const QPair<int, int> &cell, AppletsLayout::PreferredLayoutDirection direction) const
@@ -498,10 +498,10 @@ QRectF GridLayoutManager::nextAvailableSpace(ItemContainer *item, const QSizeF &
                 const int height = qMin(itemCellGeom.height(), partialSize.height()) * cellSize().height();
 
                 if (direction == AppletsLayout::RightToLeft) {
-                    return QRectF((cell.second + 1) * cellSize().width() - width, cell.first * cellSize().height(), width, height);
+                    return QRect((cell.second + 1) * cellSize().width() - width, cell.first * cellSize().height(), width, height);
                     // AppletsLayout::LeftToRight
                 } else {
-                    return QRectF(cell.second * cellSize().width(), cell.first * cellSize().height(), width, height);
+                    return QRect(cell.second * cellSize().width(), cell.first * cellSize().height(), width, height);
                 }
             } else {
                 cell = nextAvailableCell(cell, direction);
@@ -534,10 +534,10 @@ QRectF GridLayoutManager::nextAvailableSpace(ItemContainer *item, const QSizeF &
                 const int height = qMin(itemCellGeom.height(), partialSize.height()) * cellSize().height();
 
                 if (direction == AppletsLayout::BottomToTop) {
-                    return QRectF(cell.second * cellSize().width(), (cell.first + 1) * cellSize().height() - height, width, height);
+                    return QRect(cell.second * cellSize().width(), (cell.first + 1) * cellSize().height() - height, width, height);
                     // AppletsLayout::TopToBottom:
                 } else {
-                    return QRectF(cell.second * cellSize().width(), cell.first * cellSize().height(), width, height);
+                    return QRect(cell.second * cellSize().width(), cell.first * cellSize().height(), width, height);
                 }
             } else {
                 cell = nextAvailableCell(cell, direction);
@@ -546,7 +546,7 @@ QRectF GridLayoutManager::nextAvailableSpace(ItemContainer *item, const QSizeF &
     }
 
     // We didn't manage to find layout space, return invalid geometry
-    return QRectF();
+    return {};
 }
 
 #include "moc_gridlayoutmanager.cpp"

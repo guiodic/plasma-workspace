@@ -477,7 +477,7 @@ TaskGroupingProxyModel::~TaskGroupingProxyModel() = default;
 QModelIndex TaskGroupingProxyModel::index(int row, int column, const QModelIndex &parent) const
 {
     if (row < 0 || column != 0) {
-        return QModelIndex();
+        return {};
     }
 
     if (parent.isValid() && row < d->rowMap.at(parent.row())->count()) {
@@ -488,13 +488,13 @@ QModelIndex TaskGroupingProxyModel::index(int row, int column, const QModelIndex
         return createIndex(row, column, nullptr);
     }
 
-    return QModelIndex();
+    return {};
 }
 
 QModelIndex TaskGroupingProxyModel::parent(const QModelIndex &child) const
 {
     if (child.internalPointer() == nullptr) {
-        return QModelIndex();
+        return {};
     } else {
         const int parentRow = d->rowMap.indexOf(static_cast<QList<int> *>(child.internalPointer()));
 
@@ -507,13 +507,13 @@ QModelIndex TaskGroupingProxyModel::parent(const QModelIndex &child) const
         Q_ASSERT(parentRow != -1);
     }
 
-    return QModelIndex();
+    return {};
 }
 
 QModelIndex TaskGroupingProxyModel::mapFromSource(const QModelIndex &sourceIndex) const
 {
     if (!sourceIndex.isValid() || sourceIndex.model() != sourceModel()) {
-        return QModelIndex();
+        return {};
     }
 
     for (int i = 0; i < d->rowMap.count(); ++i) {
@@ -537,20 +537,20 @@ QModelIndex TaskGroupingProxyModel::mapFromSource(const QModelIndex &sourceIndex
         }
     }
 
-    return QModelIndex();
+    return {};
 }
 
 QModelIndex TaskGroupingProxyModel::mapToSource(const QModelIndex &proxyIndex) const
 {
     if (!proxyIndex.isValid() || proxyIndex.model() != this || !sourceModel()) {
-        return QModelIndex();
+        return {};
     }
 
     const QModelIndex &parent = proxyIndex.parent();
 
     if (parent.isValid()) {
         if (parent.row() < 0 || parent.row() >= d->rowMap.count()) {
-            return QModelIndex();
+            return {};
         }
 
         return sourceModel()->index(d->rowMap.at(parent.row())->at(proxyIndex.row()), 0);
@@ -564,7 +564,7 @@ QModelIndex TaskGroupingProxyModel::mapToSource(const QModelIndex &proxyIndex) c
         return sourceModel()->index(d->rowMap.at(proxyIndex.row())->at(0), 0);
     }
 
-    return QModelIndex();
+    return {};
 }
 
 int TaskGroupingProxyModel::rowCount(const QModelIndex &parent) const
@@ -617,7 +617,7 @@ int TaskGroupingProxyModel::columnCount(const QModelIndex &parent) const
 QVariant TaskGroupingProxyModel::data(const QModelIndex &proxyIndex, int role) const
 {
     if (!proxyIndex.isValid() || proxyIndex.model() != this || !sourceModel()) {
-        return QVariant();
+        return {};
     }
 
     const QModelIndex &parent = proxyIndex.parent();
@@ -627,7 +627,7 @@ QVariant TaskGroupingProxyModel::data(const QModelIndex &proxyIndex, int role) c
     const QModelIndex &sourceIndex = mapToSource(proxyIndex);
 
     if (!sourceIndex.isValid()) {
-        return QVariant();
+        return {};
     }
 
     if (role == AbstractTasksModel::IsGroupable) {
@@ -659,7 +659,7 @@ QVariant TaskGroupingProxyModel::data(const QModelIndex &proxyIndex, int role) c
             return QStringLiteral("windowsystem/multiple-winids");
         } else if (role == AbstractTasksModel::MimeData) {
             // FIXME TODO: Implement.
-            return QVariant();
+            return {};
         } else if (role == AbstractTasksModel::IsGroupParent) {
             return true;
         } else if (role == AbstractTasksModel::ChildCount) {
@@ -713,7 +713,7 @@ QVariant TaskGroupingProxyModel::data(const QModelIndex &proxyIndex, int role) c
             // TODO: Nothing needs this for now and it would add complexity to
             // make it a list; skip it until needed. Once it is, do it similarly
             // to the AbstractTasksModel::VirtualDesktop case.
-            return QVariant();
+            return {};
         } else if (role == AbstractTasksModel::Activities) {
             QStringList activities;
 

@@ -118,7 +118,7 @@ QVariant ApplicationModel::headerData(int section, Qt::Orientation orientation, 
     Q_UNUSED(orientation)
     Q_UNUSED(role)
 
-    return QVariant();
+    return {};
 }
 
 QModelIndex ApplicationModel::index(int row, int column, const QModelIndex &parent) const
@@ -128,13 +128,13 @@ QModelIndex ApplicationModel::index(int row, int column, const QModelIndex &pare
     if (row >= 0 && row < m_applications.length()) {
         return createIndex(row, column);
     }
-    return QModelIndex();
+    return {};
 }
 
 QModelIndex ApplicationModel::parent(const QModelIndex &index) const
 {
     Q_UNUSED(index)
-    return QModelIndex();
+    return {};
 }
 
 int ApplicationModel::rowCount(const QModelIndex &parent) const
@@ -154,7 +154,7 @@ int ApplicationModel::columnCount(const QModelIndex &parent) const
 QVariant ApplicationModel::data(const QModelIndex &index, int role) const
 {
     if (!isValid(index))
-        return QVariant();
+        return {};
 
     int row = index.row();
     const auto map = m_applications.at(row);
@@ -171,7 +171,7 @@ QVariant ApplicationModel::data(const QModelIndex &index, int role) const
         return map[QStringLiteral("execLine")];
     }
 
-    return QVariant();
+    return {};
 }
 
 QVariant ApplicationModel::data(const int &row, int role) const
@@ -220,7 +220,7 @@ QModelIndex ApplicationModel::findByStorageId(const QString &storageId) const
         }
         ++i;
     }
-    return QModelIndex();
+    return {};
 }
 
 QHash<int, QByteArray> ApplicationModel::roleNames() const

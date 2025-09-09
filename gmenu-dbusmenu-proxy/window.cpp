@@ -403,7 +403,7 @@ DBusMenuItemList Window::GetGroupProperties(const QList<int> &ids, const QString
 {
     Q_UNUSED(ids);
     Q_UNUSED(propertyNames);
-    return DBusMenuItemList();
+    return {};
 }
 
 uint Window::GetLayout(int parentId, int recursionDepth, const QStringList &propertyNames, DBusMenuLayoutItem &dbusItem)

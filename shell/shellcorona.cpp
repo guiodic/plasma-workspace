@@ -1848,7 +1848,7 @@ QVariantMap ShellCorona::wallpaper(uint screenNum)
 {
     if (!m_desktopViewForScreen.contains(screenNum)) {
         qCWarning(PLASMASHELL) << "wallpaper: unknown screen" << screenNum;
-        return QVariantMap();
+        return {};
     }
 
     auto currentActivity = m_activityController->currentActivity();
@@ -1857,7 +1857,7 @@ QVariantMap ShellCorona::wallpaper(uint screenNum)
     Plasma::Containment *containment = containmentForScreen(screenNum, currentActivity, QString());
     if (!containment) {
         qCWarning(PLASMASHELL) << "wallpaper: containment not found for screen" << screenNum << currentActivity;
-        return QVariantMap();
+        return {};
     }
 
     QVariantMap parameters;
@@ -1944,10 +1944,10 @@ QString ShellCorona::evaluateScript(const QString &script)
     if (calledFromDBus()) {
         if (immutability() == Plasma::Types::SystemImmutable) {
             sendErrorReply(QDBusError::Failed, QStringLiteral("Widgets are locked"));
-            return QString();
+            return {};
         } else if (!KAuthorized::authorize(QStringLiteral("plasma-desktop/scripting_console"))) {
             sendErrorReply(QDBusError::Failed, QStringLiteral("Administrative policies prevent script execution"));
-            return QString();
+            return {};
         }
     }
 
@@ -1970,7 +1970,7 @@ QString ShellCorona::evaluateScript(const QString &script)
 
     if (calledFromDBus() && !scriptEngine.errorString().isEmpty()) {
         sendErrorReply(QDBusError::Failed, scriptEngine.errorString());
-        return QString();
+        return {};
     }
 
     return buffer;
@@ -2720,7 +2720,7 @@ QString ShellCorona::containmentPreviewPath(Plasma::Containment *containment) co
     if (QFile::exists(path)) {
         return path;
     } else {
-        return QString();
+        return {};
     }
 }
 

@@ -100,7 +100,7 @@ QString ActivityInfo::activityName(const QString &id)
         return info.name();
     }
 
-    return QString();
+    return {};
 }
 
 QString ActivityInfo::activityIcon(const QString &id)
@@ -111,7 +111,7 @@ QString ActivityInfo::activityIcon(const QString &id)
         return info.icon();
     }
 
-    return QString();
+    return {};
 }
 }
 

@@ -422,7 +422,7 @@ void WallpaperModule::setSelectedScreen(const QString &screenName)
 QString WallpaperModule::wallpaperPluginSource()
 {
     if (m_currentWallpaperPlugin.isEmpty()) {
-        return QString();
+        return {};
     }
 
     const auto model = wallpaperConfigModel();
@@ -433,7 +433,7 @@ QString WallpaperModule::wallpaperPluginSource()
         }
     }
 
-    return QString();
+    return {};
 }
 
 void WallpaperModule::setCurrentWallpaperPlugin(const QString &wallpaperPlugin)
