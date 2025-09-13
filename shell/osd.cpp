@@ -16,6 +16,7 @@
 #include <QTimer>
 #include <QWindow>
 
+#include <KRuntimePlatform>
 #include <PlasmaQuick/SharedQmlEngine>
 #include <klocalizedstring.h>
 
@@ -47,10 +48,23 @@ void Osd::screenBrightnessChanged(int percent, const QString &displayId, const Q
                                       .percent = percent,
                                   });
 
+    // Don't show screen brightness OSD on mobile
+    const bool isMobile = KRuntimePlatform::runtimePlatform().contains(u"phone"_s);
+
     if (m_corona->numScreens() == 1 && m_screenBrightnessInfo.size() == 1 && screenRect == m_corona->screenGeometry(0)) {
-        showProgress(u"video-display-brightness"_s, percent, 100);
+        if (isMobile) {
+            // Only emit event, don't show OSD on Plasma Mobile
+            Q_EMIT osdProgress(u"video-display-brightness"_s, percent, 100, {});
+        } else {
+            showProgress(u"video-display-brightness"_s, percent, 100);
+        }
     } else if (m_screenBrightnessInfo.size() == 1) {
-        showProgress(u"video-display-brightness"_s, percent, 100, displayLabel);
+        if (isMobile) {
+            // Only emit event, don't show OSD on Plasma Mobile
+            Q_EMIT osdProgress(u"video-display-brightness"_s, percent, 100, displayLabel);
+        } else {
+            showProgress(u"video-display-brightness"_s, percent, 100, displayLabel);
+        }
     } else {
         // TODO: show one progress OSD on each corresponding screen
         QList<ScreenBrightnessInfo> sortedByPriority = m_screenBrightnessInfo.values();
@@ -61,13 +75,24 @@ void Osd::screenBrightnessChanged(int percent, const QString &displayId, const Q
         for (const auto &info : std::as_const(sortedByPriority)) {
             percentages += i18nc("Brightness OSD: display name and brightness percentage", "%1: %2%", info.label, info.percent);
         }
-        showText(u"video-display-brightness"_s, percentages.join(u"\n"_s));
+
+        if (isMobile) {
+            // Only emit event, don't show OSD on Plasma Mobile
+            Q_EMIT osdText(u"video-display-brightness"_s, percentages.join(u"\n"_s));
+        } else {
+            showText(u"video-display-brightness"_s, percentages.join(u"\n"_s));
+        }
     }
 }
 
 void Osd::brightnessChanged(int percent)
 {
-    showProgress(u"video-display-brightness"_s, percent, 100);
+    if (KRuntimePlatform::runtimePlatform().contains(u"phone"_s)) {
+        // Only emit event, don't show OSD on Plasma Mobile
+        Q_EMIT osdProgress(u"video-display-brightness"_s, percent, 100, {});
+    } else {
+        showProgress(u"video-display-brightness"_s, percent, 100);
+    }
 }
 
 void Osd::keyboardBrightnessChanged(int percent)
@@ -99,7 +124,12 @@ void Osd::volumeChanged(int percent, int maximumPercent)
         icon = u"audio-volume-high-danger"_s;
     }
 
-    showProgress(icon, percent, maximumPercent);
+    if (KRuntimePlatform::runtimePlatform().contains(u"phone"_s)) {
+        // Plasma Mobile supplies its own OSD, so just emit the signal but don't show it here.
+        Q_EMIT osdProgress(icon, percent, maximumPercent, {});
+    } else {
+        showProgress(icon, percent, maximumPercent);
+    }
 }
 
 void Osd::microphoneVolumeChanged(int percent)
